@@ -1,0 +1,33 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "rules": {
+    "keyword-spacing": 2,
+    "no-undef": 2,
+    "no-undefined": 0,
+    "no-unreachable": 2,
+    "no-console": 0,
+    "no-unused-expressions": 2,
+    "no-unused-vars": 2,
+    "valid-typeof": 2,
+    "vars-on-top": 2,
+    "react/prop-types": 0
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
