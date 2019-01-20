@@ -6,22 +6,26 @@ import Button from "../../components/Button"
 import Errors from "../../components/Errors"
 
 function LoginForm(props) {
-  const secondInput = useRef()
   const [email, setEmail] = useState()
   const [emailMissing, setEmailMissing] = useState(false)
   const [password, setPassword] = useState()
   const [passwordMissing, setPasswordMissing] = useState(false)
   const [errors, setErrors] = useState()
+  const [loading, setLoading] = useState(false)
+  const secondInput = useRef()
 
   const handleSubmit = () => {
+    if (loading) return
     const data = { email, password }
     if (!email || !password) {
       if (!email) setEmailMissing(true)
       if (!password) setPasswordMissing(true)
       return
     }
+    setLoading(true)
     props.onFormSubmit(data).catch(error => {
       if (error.graphQLErrors) {
+        setLoading(false)
         setErrors(error.graphQLErrors)
       }
     })
@@ -56,7 +60,12 @@ function LoginForm(props) {
               value={password}
               onSubmitEditing={handleSubmit}
             />
-            <Button text="login" variant="primary" onPress={handleSubmit} />
+            <Button
+              text="login"
+              loading={loading}
+              variant="primary"
+              onPress={handleSubmit}
+            />
             {errors && <Errors errors={errors} />}
           </>
         </TouchableWithoutFeedback>

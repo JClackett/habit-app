@@ -111,20 +111,18 @@ function HabitForm(props) {
       <Button text="submit" variant="primary" onPress={onSubmit} />
 
       {props.habit && (
-        <StyledDelete>
-          <DestroyHabit habit={props.habit} onCloseModal={props.onCloseModal}>
-            {destroyHabit => (
-              <TouchableOpacity
-                onPress={async () => {
-                  props.onHabbitDestroy()
-                  await destroyHabit()
-                }}
-              >
-                <StyledDeleteText>delete</StyledDeleteText>
-              </TouchableOpacity>
-            )}
-          </DestroyHabit>
-        </StyledDelete>
+        <DestroyHabit habit={props.habit} onCloseModal={props.onCloseModal}>
+          {destroyHabit => (
+            <TouchableOpacity
+              onPress={async () => {
+                props.onHabbitDestroy()
+                await destroyHabit()
+              }}
+            >
+              <StyledDelete>delete</StyledDelete>
+            </TouchableOpacity>
+          )}
+        </DestroyHabit>
       )}
     </StyledForm>
   )
@@ -172,11 +170,9 @@ const StyledOptions = styled.View`
 `
 
 const StyledOptionWrap = styled.View`
-  justify-content: center;
-  align-items: center;
-  padding: ${p => p.theme.paddingSmall};
-  margin: ${p => p.theme.paddingExtraSmall} ${p => p.theme.paddingSmall};
+  margin: ${p => p.theme.paddingExtraSmall};
   border-radius: ${p => p.theme.borderRadius};
+  padding: ${p => p.theme.paddingSmall};
   background-color: ${p =>
     p.selected ? p.theme.colorTransparent : "transparent"};
 `
@@ -189,18 +185,11 @@ const StyledOption = styled.Text`
   letter-spacing: ${p => p.theme.letterSpacingSmall};
 `
 
-const StyledDelete = styled.View`
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
+const StyledDelete = styled.Text`
   width: 100%;
-  padding: ${p => p.theme.paddingMedium};
-  padding-top: 0;
-`
-
-const StyledDeleteText = styled.Text`
   text-transform: uppercase;
   color: white;
+  padding: ${p => p.theme.paddingMedium};
   letter-spacing: ${p => p.theme.letterSpacing};
   font-size: ${p => p.theme.fontSmall};
 `

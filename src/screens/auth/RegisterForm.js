@@ -14,6 +14,8 @@ function RegisterForm(props) {
   const [firstNameMissing, setFirstNameMissing] = useState(false)
   const [lastName, setLastName] = useState()
   const [lastNameMissing, setLastNameMissing] = useState(false)
+  const [loading, setLoading] = useState(false)
+
   const secondInput = useRef()
   const thirdInput = useRef()
   const fourthInput = useRef()
@@ -21,6 +23,8 @@ function RegisterForm(props) {
   const [errors, setErrors] = useState()
 
   const handleSubmit = () => {
+    if (loading) return
+
     const data = { email, password, firstName, lastName }
     if (!email || !password) {
       if (!email) setEmailMissing(true)
@@ -29,9 +33,10 @@ function RegisterForm(props) {
       if (!lastName) setLastNameMissing(true)
       return
     }
-
+    setLoading(true)
     props.onFormSubmit(data).catch(error => {
       if (error.graphQLErrors) {
+        setLoading(false)
         setErrors(error.graphQLErrors)
       }
     })
@@ -87,7 +92,12 @@ function RegisterForm(props) {
             onSubmitEditing={handleSubmit}
             value={lastName}
           />
-          <Button text="sign up" onPress={handleSubmit} variant="primary" />
+          <Button
+            loading={loading}
+            text="sign up"
+            onPress={handleSubmit}
+            variant="primary"
+          />
           {errors && <Errors errors={errors} />}
         </>
       )}

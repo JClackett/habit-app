@@ -1,10 +1,15 @@
 import React, { memo } from "react"
+import { ActivityIndicator } from "react-native"
 import styled from "styled-components/native"
 
-function Button({ onPress, text, variant = "default" }) {
+function Button({ onPress, text, variant = "default", loading = false }) {
   return (
     <StyledButton onPress={onPress} variant={variant}>
-      <StyledButtonText>{text}</StyledButtonText>
+      {loading ? (
+        <ActivityIndicator size="small" color="#000" />
+      ) : (
+        <StyledButtonText>{text}</StyledButtonText>
+      )}
     </StyledButton>
   )
 }
