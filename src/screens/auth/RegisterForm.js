@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react"
+import React, { memo, useRef, useState } from "react"
 
 import TextInput from "../../components/TextInput"
 import Button from "../../components/Button"
@@ -14,6 +14,9 @@ function RegisterForm(props) {
   const [firstNameMissing, setFirstNameMissing] = useState(false)
   const [lastName, setLastName] = useState()
   const [lastNameMissing, setLastNameMissing] = useState(false)
+  const secondInput = useRef()
+  const thirdInput = useRef()
+  const fourthInput = useRef()
 
   const [errors, setErrors] = useState()
 
@@ -35,43 +38,59 @@ function RegisterForm(props) {
   }
   return (
     <FormContainer>
-      <TextInput
-        label="Email"
-        error={emailMissing}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        returnKeyType="next"
-        autoCorrect={false}
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        autoCapitalize="none"
-        label="Password"
-        error={passwordMissing}
-        secureTextEntry={true}
-        returnKeyType="next"
-        autoCorrect={false}
-        onChangeText={setPassword}
-        value={password}
-      />
-      <TextInput
-        label="First name"
-        error={firstNameMissing}
-        returnKeyType="next"
-        onChangeText={setFirstName}
-        value={firstName}
-      />
-      <TextInput
-        label="Last name"
-        error={lastNameMissing}
-        returnKeyType="done"
-        onChangeText={setLastName}
-        onSubmitEditing={handleSubmit}
-        value={lastName}
-      />
-      <Button text="sign up" onPress={handleSubmit} variant="primary" />
-      {errors && <Errors errors={errors} />}
+      {(up, down) => (
+        <>
+          <TextInput
+            label="Email"
+            error={emailMissing}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            returnKeyType="next"
+            autoCorrect={false}
+            onFocus={() => up(30)}
+            blurOnSubmit={false}
+            onSubmitEditing={() => secondInput.current.focus()}
+            onChangeText={setEmail}
+            value={email}
+          />
+          <TextInput
+            autoCapitalize="none"
+            label="Password"
+            error={passwordMissing}
+            secureTextEntry={true}
+            returnKeyType="next"
+            autoCorrect={false}
+            onFocus={() => up(50)}
+            onSubmitEditing={() => thirdInput.current.focus()}
+            setRef={secondInput}
+            onChangeText={setPassword}
+            value={password}
+          />
+          <TextInput
+            label="First name"
+            error={firstNameMissing}
+            returnKeyType="next"
+            onFocus={() => up(90)}
+            onSubmitEditing={() => fourthInput.current.focus()}
+            setRef={thirdInput}
+            onChangeText={setFirstName}
+            value={firstName}
+          />
+          <TextInput
+            label="Last name"
+            error={lastNameMissing}
+            returnKeyType="done"
+            onChangeText={setLastName}
+            onFocus={() => up(110)}
+            setRef={fourthInput}
+            onBlur={down}
+            onSubmitEditing={handleSubmit}
+            value={lastName}
+          />
+          <Button text="sign up" onPress={handleSubmit} variant="primary" />
+          {errors && <Errors errors={errors} />}
+        </>
+      )}
     </FormContainer>
   )
 }

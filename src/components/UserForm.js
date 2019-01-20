@@ -22,14 +22,14 @@ function UserForm(props) {
     <StyledForm>
       <TextInput
         label="First name"
-        returnKeyType="next"
+        returnKeyType="done"
         onBlur={onSubmit}
         onChangeText={setFirstName}
         value={firstName}
       />
       <TextInput
         label="Last name"
-        returnKeyType="next"
+        returnKeyType="done"
         onBlur={onSubmit}
         onChangeText={setLastName}
         value={lastName}

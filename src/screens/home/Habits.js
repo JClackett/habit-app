@@ -14,19 +14,28 @@ function Habits() {
     <StyledHabitWrapper>
       {/* <DaySwitcher startDate={startDate} setStartDate={setStartDate} /> */}
       <GetHabits>
-        {({ habits }) => (
-          <FlatList
-            data={habits}
-            extraData={[startDate, habits]}
-            keyExtractor={item => item.id}
-            stickyHeaderIndices={[0]}
-            ListHeaderComponent={<TopBar />}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <HabitContainer habit={item} startDate={startDate} />
-            )}
-          />
-        )}
+        {({ habits }) => {
+          if (habits.length === 0)
+            return (
+              <>
+                <TopBar />
+                <StyledNoHabitTitle>no habits added yet</StyledNoHabitTitle>
+              </>
+            )
+          return (
+            <FlatList
+              data={habits}
+              extraData={[startDate, habits]}
+              keyExtractor={item => item.id}
+              stickyHeaderIndices={[0]}
+              ListHeaderComponent={<TopBar />}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <HabitContainer habit={item} startDate={startDate} />
+              )}
+            />
+          )
+        }}
       </GetHabits>
     </StyledHabitWrapper>
   )
@@ -37,4 +46,15 @@ export default Habits
 const StyledHabitWrapper = styled.View`
   flex: 1;
   padding: 0 ${p => p.theme.paddingMedium};
+`
+
+const StyledNoHabitTitle = styled.Text`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: ${p => p.theme.colorTransparent};
+  letter-spacing: ${p => p.theme.letterSpacingSmall};
 `

@@ -77,6 +77,7 @@ const StyledNavigator = styled.Text`
   color: white;
   text-transform: uppercase;
   font-size: ${p => p.theme.fontSmall};
+  padding: ${p => p.theme.paddingMedium};
   letter-spacing: ${p => p.theme.letterSpacing};
 `
 

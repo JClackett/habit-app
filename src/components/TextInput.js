@@ -8,11 +8,15 @@ function TextInput(props) {
       <StyledLabel>{props.label}</StyledLabel>
       <StyledInput
         {...props}
-        onFocus={() => setFocused(true)}
+        onFocus={() => {
+          setFocused(true)
+          if (props.onFocus) props.onFocus()
+        }}
         onBlur={() => {
           setFocused(false)
           if (props.onBlur) props.onBlur()
         }}
+        ref={props.setRef}
       />
     </StyledInputWrapper>
   )
