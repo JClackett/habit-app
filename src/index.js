@@ -8,7 +8,7 @@ import lightTheme from "./app/theme"
 
 const uri =
   process.env.NODE_ENV == "production"
-    ? "https://production-api.com/graphql"
+    ? "https://nq-habit.herokuapp.com/graphql"
     : "http://localhost:5000/graphql"
 
 const client = new ApolloClient({
