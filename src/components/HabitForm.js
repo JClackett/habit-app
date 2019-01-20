@@ -17,19 +17,27 @@ const HABIT_COLORS = {
 function HabitForm(props) {
   const habit = { ...props.habit }
   const [name, setName] = useState(habit.name)
+  const [nameMissing, setNameMissing] = useState(false)
   const [amount, setAmount] = useState(habit.amount || 1)
   const [type, setType] = useState(habit.type || "body")
+  const [loading, setLoading] = useState(false)
+
   const color = HABIT_COLORS[type]
   const pan = new Animated.Value(0)
 
   const onSubmit = () => {
+    if (loading) return
     const data = {
       name,
       amount,
       type,
       color,
     }
-    props.onFormSubmit(data)
+    if (!name) return setNameMissing(true)
+    setLoading(true)
+    props.onFormSubmit(data).catch(() => {
+      setLoading(false)
+    })
   }
 
   const decrementAmount = () => {
@@ -60,6 +68,7 @@ function HabitForm(props) {
       <TextInput
         label="Name"
         returnKeyType="done"
+        error={nameMissing}
         onChangeText={setName}
         value={name}
       />
@@ -108,7 +117,12 @@ function HabitForm(props) {
         </StyledOptions>
       </StyledField>
 
-      <Button text="submit" variant="primary" onPress={onSubmit} />
+      <Button
+        loading={loading}
+        text="submit"
+        variant="primary"
+        onPress={onSubmit}
+      />
 
       {props.habit && (
         <DestroyHabit habit={props.habit} onCloseModal={props.onCloseModal}>
