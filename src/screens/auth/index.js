@@ -21,7 +21,10 @@ function AuthScreen() {
     <AuthUser>
       {(handleLogin, handleRegister) => (
         <StyledAuthWrapper>
-          <StyledHeader>habit</StyledHeader>
+          <StyledHeaderContainer>
+            <StyledHeader>habit</StyledHeader>
+            <StyledHeader>🐇</StyledHeader>
+          </StyledHeaderContainer>
           <Animated.View
             style={{
               alignSelf: "flex-start",
@@ -56,16 +59,19 @@ const StyledAuthWrapper = styled.View`
   position: relative;
   background-color: ${p => p.theme.colorBackground};
 `
-const StyledHeader = styled.Text`
+
+const StyledHeaderContainer = styled.View`
+  right: 0;
   position: absolute;
-  color: white;
   top: 50px;
   left: 0;
-  right: 0;
+`
+const StyledHeader = styled.Text`
+  color: rgba(255, 255, 255, 0.7);
   text-align: center;
   text-transform: uppercase;
+  letter-spacing: 3px;
   font-size: ${p => p.theme.fontLarge};
-  letter-spacing: ${p => p.theme.letterSpacing};
 `
 
 const StyledNavigatorButton = styled.TouchableOpacity`

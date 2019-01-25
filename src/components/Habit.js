@@ -1,5 +1,9 @@
 import React, { useState } from "react"
-import { TouchableOpacity, Animated } from "react-native"
+import {
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Animated,
+} from "react-native"
 import styled from "styled-components/native"
 import useAnimation from "../hooks/useAnimation"
 import { round } from "../lib/helpers"
@@ -13,7 +17,7 @@ function calculatePercentage(count, total) {
   return progress
 }
 
-function Habit({ habit, totalSteps, createStep }) {
+function Habit({ habit, totalSteps, createStep, destroyStep }) {
   const [modalOpen, setModalOpen] = useState(false)
 
   const progressValue = useAnimation({
@@ -29,35 +33,37 @@ function Habit({ habit, totalSteps, createStep }) {
   }
 
   return (
-    <StyledHabit>
-      <Animated.View
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          backgroundColor: habit.color,
-          width: progressValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ["0%", "100%"],
-            extrapoltate: "clamp",
-          }),
-        }}
-      />
-      <TouchableOpacity onPress={() => setModalOpen(true)}>
-        <StyledName>{habit.name}</StyledName>
-        <StyledInterval>{habit.amount} per week</StyledInterval>
-      </TouchableOpacity>
+    <TouchableWithoutFeedback onLongPress={destroyStep}>
+      <StyledHabit>
+        <Animated.View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            bottom: 0,
+            backgroundColor: habit.color,
+            width: progressValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: ["0%", "100%"],
+              extrapoltate: "clamp",
+            }),
+          }}
+        />
+        <TouchableOpacity onPress={() => setModalOpen(true)}>
+          <StyledName>{habit.name}</StyledName>
+          <StyledInterval>{habit.amount} per week</StyledInterval>
+        </TouchableOpacity>
 
-      <TouchableOpacity activeOpacity={0.7} onPress={onCreateStep}>
-        <StyledCount>{totalSteps}</StyledCount>
-      </TouchableOpacity>
-      <UpdateHabitModal
-        open={modalOpen}
-        habit={habit}
-        onCloseModal={() => setModalOpen(false)}
-      />
-    </StyledHabit>
+        <TouchableOpacity activeOpacity={0.7} onPress={onCreateStep}>
+          <StyledCount>{totalSteps}</StyledCount>
+        </TouchableOpacity>
+        <UpdateHabitModal
+          open={modalOpen}
+          habit={habit}
+          onCloseModal={() => setModalOpen(false)}
+        />
+      </StyledHabit>
+    </TouchableWithoutFeedback>
   )
 }
 
