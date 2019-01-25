@@ -78,11 +78,7 @@ function HabitForm(props) {
         <StyledLabel>Amount per week</StyledLabel>
         <StyledCounter>
           <TouchableOpacity onPress={decrementAmount}>
-            <AntDesign
-              name="caretdown"
-              color="rgba(255,255,255,0.6)"
-              size={20}
-            />
+            <AntDesign name="minus" color="rgba(255,255,255,0.6)" size={20} />
           </TouchableOpacity>
           <Animated.View {...panResponder.panHandlers} style={{ left: pan }}>
             <StyledCounterValue>
@@ -90,7 +86,7 @@ function HabitForm(props) {
             </StyledCounterValue>
           </Animated.View>
           <TouchableOpacity onPress={incrementAmount}>
-            <AntDesign name="caretup" color="rgba(255,255,255,0.6)" size={20} />
+            <AntDesign name="plus" color="rgba(255,255,255,0.6)" size={20} />
           </TouchableOpacity>
         </StyledCounter>
       </StyledField>
@@ -158,6 +154,7 @@ const StyledLabel = styled.Text`
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.7);
   letter-spacing: ${p => p.theme.letterSpacingSmall};
+  margin-bottom: ${p => p.theme.paddingSmall};
   font-size: ${p => p.theme.fontSmall};
 `
 const StyledCounter = styled.View`

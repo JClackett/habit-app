@@ -1,24 +1,34 @@
 import React, { useState } from "react"
 import { FlatList } from "react-native"
 import dayjs from "dayjs"
+import weekOfYear from "dayjs/plugin/weekOfYear"
+dayjs.extend(weekOfYear)
 import styled from "styled-components/native"
 
 import GetHabits from "../../graphql/habit/GetHabits"
 import HabitContainer from "../../components/HabitContainer"
 import TopBar from "../../components/TopBar"
-// import DaySwitcher from "../../components/DaySwitcher"
 
 function Habits() {
-  const [startDate] = useState(dayjs())
+  const [startDate, setStartDate] = useState(dayjs())
+
+  const prevWeek = () => {
+    setStartDate(startDate.subtract(1, "week"))
+  }
+
+  const nextWeek = () => {
+    if (startDate.isSame(dayjs(), "week")) return
+    setStartDate(startDate.add(1, "week"))
+  }
+
   return (
     <StyledHabitWrapper>
-      {/* <DaySwitcher startDate={startDate} setStartDate={setStartDate} /> */}
       <GetHabits>
         {({ habits }) => {
           if (habits.length === 0)
             return (
               <>
-                <TopBar />
+                <TopBar startDate={startDate} />
                 <StyledNoHabitTitle>no habits added yet</StyledNoHabitTitle>
               </>
             )
@@ -28,7 +38,13 @@ function Habits() {
               extraData={[startDate, habits]}
               keyExtractor={item => item.id}
               stickyHeaderIndices={[0]}
-              ListHeaderComponent={<TopBar />}
+              ListHeaderComponent={
+                <TopBar
+                  startDate={startDate}
+                  prevWeek={prevWeek}
+                  nextWeek={nextWeek}
+                />
+              }
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <HabitContainer habit={item} startDate={startDate} />
